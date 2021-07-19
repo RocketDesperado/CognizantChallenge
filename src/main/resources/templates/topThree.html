@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Cognizant Challenge</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <link href='https://fonts.googleapis.com/css?family=Roboto:400,100,300,700' rel='stylesheet' type='text/css'>
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link th:href="@{/css/style.css}" rel="stylesheet">
+
+</head>
+<body>
+
+<nav class="navbar navbar-expand-lg navbar-light bg-green">
+    <a class="navbar-brand" href="/">Cognizant Challenge</a>
+    <ul class="navbar-nav mr-auto"></ul>
+    <form class="mr-2" id="btn1" th:action="@{/}" method="GET">
+        <button class="btn my-2 bg-green border-light mr-auto" type="submit">Solve</button>
+    </form>
+    <form id="btn2" th:action="@{/topThree}" method="GET">
+        <button class="btn my-2 bg-green border-light mr-auto" type="submit" disabled>Top 3</button>
+    </form>
+</nav>
+
+<section class="ftco-section">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-6 text-center mb-5">
+                <h2 class="heading-section">Top 3</h2>
+            </div>
+        </div>
+        <div class="justify-content-center">
+
+            <table class="table">
+                <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col" >Name</th>
+                    <th scope="col" >Success Solutions</th>
+                    <th scope="col" >Tasks</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr scope="col" th:each="i : ${#numbers.sequence(0, personsAndTasks.size()-1)}" id="tablerow" >
+                    <td th:each="field: ${i+1}" th:text="${i+1}" />
+                    <td th:each="field: ${personsAndTasks.get(i)}" th:text="${personsAndTasks.get(i).getName()}" />
+                    <td th:each="field: ${personsAndTasks.get(i)}" th:text="${personsAndTasks.get(i).getListOfTasks().size()}" />
+                    <td th:each="field: ${personsAndTasks.get(i)}" th:text="${personsAndTasks.get(i).getId()}" />
+                </tr>
+                </tbody>
+            </table>
+
+        </div>
+    </div>
+    </div>
+</section>
+
+
+<script src="../js/jquery.min.js"></script>
+<script src="../js/popper.js"></script>
+<script src="../js/bootstrap.min.js"></script>
+<script src="../js/jquery.validate.min.js"></script>
+<script src="../js/main.js"></script>
+
+</body>
+</html>
+
