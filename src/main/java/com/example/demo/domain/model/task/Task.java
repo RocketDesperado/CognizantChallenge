@@ -11,7 +11,9 @@ public class Task implements Serializable {
     private Long id;
 
     @Column(name = "TASK_NAME")
-    private String taskName;
+    // @Enumerated(EnumType.STRING)
+    @Convert(converter = TaskTypeConverter.class)
+    private TaskType taskType;
 
     private String description;
 
@@ -25,25 +27,30 @@ public class Task implements Serializable {
     @Column(name = "SOLUTION_CODE")
     private String solutionCode;
 
+    @Column(name = "STATUS_RESULT")
+    @Enumerated(EnumType.STRING)
+    private ResultStatus statusResult;
+
     public Task() {
         // def constr
     }
 
-    public Task(String taskName, String description, String output, Long memory, Double cpuTime, String solutionCode) {
-        this.taskName = taskName;
+    public Task(TaskType taskType, String description, String output, Long memory, Double cpuTime, String solutionCode, ResultStatus statusResult) {
+        this.taskType = taskType;
         this.description = description;
         this.output = output;
         this.memory = memory;
         this.cpuTime = cpuTime;
         this.solutionCode = solutionCode;
+        this.statusResult = statusResult;
     }
 
     public Long getId() {
         return id;
     }
 
-    public String getTaskName() {
-        return taskName;
+    public TaskType getTaskType() {
+        return taskType;
     }
 
     public String getDescription() {
@@ -66,15 +73,20 @@ public class Task implements Serializable {
         return solutionCode;
     }
 
+    public ResultStatus getStatusResult() {
+        return statusResult;
+    }
+
     @Override
     public String toString() {
         return "Task{" +
-                "taskName='" + taskName + '\'' +
+                "taskType='" + taskType + '\'' +
                 ", description='" + description + '\'' +
                 ", output='" + output + '\'' +
                 ", memory=" + memory +
                 ", cpuTime=" + cpuTime +
                 ", solutionCode='" + solutionCode + '\'' +
+                ", statusResult='" + statusResult + '\'' +
                 '}';
     }
 }

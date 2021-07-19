@@ -1,10 +1,12 @@
 package com.example.demo.domain.composites;
 
+import com.example.demo.domain.model.task.TaskType;
+
 public class SubmitValueComposite {
 
     private String name;
 
-    private String taskName;
+    private TaskType taskName;
 
     private String description;
 
@@ -13,7 +15,7 @@ public class SubmitValueComposite {
     public SubmitValueComposite() {
     }
 
-    public SubmitValueComposite(String name, String taskName, String description, String inputParameter) {
+    public SubmitValueComposite(String name, TaskType taskName, String description, String inputParameter) {
         this.name = name;
         this.taskName = taskName;
         this.description = description;
@@ -28,11 +30,11 @@ public class SubmitValueComposite {
         this.name = name;
     }
 
-    public String getTaskName() {
+    public TaskType getTaskName() {
         return taskName;
     }
 
-    public void setTaskName(String taskName) {
+    public void setTaskName(TaskType taskName) {
         this.taskName = taskName;
     }
 

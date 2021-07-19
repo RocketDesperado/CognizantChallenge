@@ -5,8 +5,7 @@ import com.example.demo.domain.composites.ResponseCompilerJson;
 import com.example.demo.domain.composites.SubmitValueComposite;
 import com.example.demo.domain.model.person.Person;
 import com.example.demo.domain.model.person.PersonsRepository;
-import com.example.demo.domain.model.task.Task;
-import com.example.demo.domain.model.task.TaskRepository;
+import com.example.demo.domain.model.task.*;
 import com.example.demo.service.jdoodleservice.CodeAppSvc;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -37,10 +36,12 @@ public class CognizantChallengeAppSvc {
     public CognizantChallengeAppSvc(
             PersonsRepository personsRepository,
             CodeAppSvc codeAppSvc,
-            TaskRepository taskRepository) {
+            TaskRepository taskRepository,
+            CognizantChallengeAppSvcHelper cognizantChallengeAppSvcHelper) {
         this.personsRepository = personsRepository;
         this.codeAppSvc = codeAppSvc;
         this.taskRepository = taskRepository;
+        this.cognizantChallengeAppSvcHelper = cognizantChallengeAppSvcHelper;
     }
 
     public List<Person> getAllPersons() {
@@ -63,7 +64,7 @@ public class CognizantChallengeAppSvc {
         while (taskIterable.hasNext()) {
             taskList.add(taskIterable.next());
         }
-        return taskList.stream().filter(distinctByKey(Task::getTaskName)).collect(Collectors.toList());
+        return taskList.stream().filter(distinctByKey(Task::getTaskType)).collect(Collectors.toList());
     }
 
 
@@ -81,11 +82,11 @@ public class CognizantChallengeAppSvc {
                 responseCompilerJson.getOutput(),
                 responseCompilerJson.getMemory(),
                 responseCompilerJson.getCpuTime(),
-                valueComposite.getInputParameter()
+                valueComposite.getInputParameter(),
+                cognizantChallengeAppSvcHelper.defineResultStatus(valueComposite.getTaskName(), responseCompilerJson.getOutput())
         );
 
         person.addTask(task);
         personsRepository.save(person);
     }
-
 }

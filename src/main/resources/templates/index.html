@@ -49,10 +49,7 @@
 											<div class="col-md-12">
 												<div class="form-group">
 													<label class="label" for="description">Description:</label>
-													<p name="description" id="description" placeholder="Description"
-													   th:field="*{description}"
-													   th:value="${submitValue.getDescription()}"
-													   th:text="${submitValue.getDescription()}"></p>
+													<p name="description" id="description" placeholder="Description"></p>
 												</div>
 											</div>
 
@@ -60,9 +57,10 @@
 												<div class="form-group">
 													<label class="label" for="task">Select Task</label>
 													 <select name="task" id="task" class="custom-select" th:field="*{taskName}">
+														 <option selected value="val321">Choose your task...</option>
 														 <option th:each="i : ${#numbers.sequence(0, taskList.size()-1)}"
-																 th:value="${taskList.get(i).getTaskName()}"
-																 th:text="${taskList.get(i).getTaskName()}">
+																 th:value="${taskList.get(i).getTaskType()}"
+																 th:text="${taskList.get(i).getTaskType().getId()}">
 														 </option>
 
 													</select>
@@ -72,12 +70,13 @@
 											<div class="col-md-12">
 												<div class="form-group">
 													<label class="label" for="solution">Solution Code</label>
-													<textarea th:field="*{inputParameter}" name="message" class="form-control" id="solution" cols="60" rows="8" placeholder="Solution Code"></textarea>
+													<textarea th:field="*{inputParameter}" name="solution" class="form-control" id="solution" cols="60" rows="8" placeholder="Solution Code">
+													</textarea>
 												</div>
 											</div>
 											<div class="col-md-12">
 												<div class="form-group ">
-													<input type="submit" value="Submit" class="btn btn-primary">
+													<input id="btnSubmit" type="submit" value="Submit" class="btn btn-primary">
 													<div class="submitting"></div>
 												</div>
 											</div>

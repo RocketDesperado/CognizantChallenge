@@ -8,6 +8,6 @@ import java.util.Collection;
 @Repository
 public interface TaskRepository extends JpaRepository<Task, Long> {
 
-    <T> Collection<T> findByTaskName(String taskName, Class<T> type);
+    <T> Collection<T> findByTaskType(TaskType taskType, Class<T> type);
 
 }
