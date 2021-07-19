@@ -8,6 +8,7 @@ import com.example.demo.domain.model.task.TaskType;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -43,8 +44,9 @@ public class TopThreeAppCtrlHelper {
     }
 
     private List<TopThreeModelComposite> sortByHighestSolutionScore(List<TopThreeModelComposite> modelCompositeList) {
-        return modelCompositeList.stream().sorted((o1, o2)->o1.getSuccessSolutionsCount().
-                compareTo(o2.getSuccessSolutionsCount())).
+        return modelCompositeList.stream()
+                .filter(comp -> comp.getSuccessSolutionsCount() > 0)
+                .sorted((o1, o2)->o2.getSuccessSolutionsCount().compareTo(o1.getSuccessSolutionsCount())).
                 collect(Collectors.toList());
     }
 

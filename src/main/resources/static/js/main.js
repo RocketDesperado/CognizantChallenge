@@ -22,14 +22,13 @@
 		contactForm();
 
 		var myMeth = function () {
-			let perem = $('#task option:selected').val();
 			var description
-			switch (perem) {
+			switch ($('#task option:selected').val()) {
 				case "FIBONACCI":
-					description = "FIBB";
+					description = "Provide Fibonacci algorithm solution for the first 11 outputs. Please, separate every number with one empty space. Result should be trimmed.";
 					break;
 				case "BINARY_SEARCH" :
-					description = "BIN SEARCH";
+					description = "Provide Binary Search algorithm solution";
 					break;
 				default :
 					description = "";
@@ -40,9 +39,7 @@
 		$("#task").change(myMeth)
 
 		var funcCheckTas = function () {
-			let perem = $('#task option:selected').val();
-			if (perem !== "val321") {
-				// $("#btnSubmit").prop("disabled", false)
+			if ($('#task option:selected').val() !== "val321") {
 				$("#btnSubmit").removeAttr("disabled")
 			} else {
 				$("#btnSubmit").prop("disabled", true)
@@ -51,9 +48,6 @@
 		funcCheckTas()
 
 	})
-
-
-
 
 })(jQuery);
 
