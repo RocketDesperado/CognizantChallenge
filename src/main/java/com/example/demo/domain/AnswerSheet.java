@@ -1,5 +1,8 @@
 package com.example.demo.domain;
 
+/**
+ * This class provides answer solution output result for the tasks
+ */
 public final class AnswerSheet {
 
     private AnswerSheet() {}

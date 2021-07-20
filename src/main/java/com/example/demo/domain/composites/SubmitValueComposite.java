@@ -2,6 +2,9 @@ package com.example.demo.domain.composites;
 
 import com.example.demo.domain.model.task.TaskType;
 
+/**
+ * Index main form composite. Transfers data to a model and vice versa.
+ */
 public class SubmitValueComposite {
 
     private String name;

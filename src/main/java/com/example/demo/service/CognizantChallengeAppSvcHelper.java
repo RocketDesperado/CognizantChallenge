@@ -11,6 +11,12 @@ import org.springframework.stereotype.Service;
 @Service
 public class CognizantChallengeAppSvcHelper {
 
+    /**
+     * Checks whether solution brought by the User is good or not
+     * @param taskType Task type
+     * @param output Code solution
+     * @return ResultStatus
+     */
     public ResultStatus defineResultStatus(TaskType taskType, String output) {
         if (taskType == FIBONACCI) {
             return output.equals(FIBONACCI_ANSWER) ? SUCCESS : FAILED;

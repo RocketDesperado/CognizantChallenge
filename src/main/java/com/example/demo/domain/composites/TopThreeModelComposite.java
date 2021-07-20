@@ -4,6 +4,9 @@ import com.example.demo.domain.model.task.TaskType;
 
 import java.util.List;
 
+/**
+ * Top Three table line composite. Transfers data to a model and vice versa.
+ */
 public class TopThreeModelComposite {
 
     private String name;

@@ -6,14 +6,11 @@ import com.example.demo.domain.composites.SubmitValueComposite;
 import com.example.demo.domain.model.person.Person;
 import com.example.demo.domain.model.person.PersonsRepository;
 import com.example.demo.domain.model.task.*;
-import com.example.demo.service.jdoodleservice.CodeAppSvc;
+import com.example.demo.service.jdoodleservice.CodeExecutionAppSvc;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.function.Function;
-import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 @Service
@@ -23,27 +20,26 @@ public class CognizantChallengeAppSvc {
 
     private TaskRepository taskRepository;
 
-    private CodeAppSvc codeAppSvc;
+    private CodeExecutionAppSvc codeExecutionAppSvc;
 
     private CognizantChallengeAppSvcHelper cognizantChallengeAppSvcHelper;
-
-    public static <T> Predicate<T> distinctByKey(Function<? super T, ?> keyExtractor) {
-        Set<Object> seen = ConcurrentHashMap.newKeySet();
-        return t -> seen.add(keyExtractor.apply(t));
-    }
 
     @Autowired
     public CognizantChallengeAppSvc(
             PersonsRepository personsRepository,
-            CodeAppSvc codeAppSvc,
+            CodeExecutionAppSvc codeExecutionAppSvc,
             TaskRepository taskRepository,
             CognizantChallengeAppSvcHelper cognizantChallengeAppSvcHelper) {
         this.personsRepository = personsRepository;
-        this.codeAppSvc = codeAppSvc;
+        this.codeExecutionAppSvc = codeExecutionAppSvc;
         this.taskRepository = taskRepository;
         this.cognizantChallengeAppSvcHelper = cognizantChallengeAppSvcHelper;
     }
 
+    /**
+     * Read all persons from DB and convert it into the list
+     * @return
+     */
     public List<Person> getAllPersons() {
         List<Person> personList = new ArrayList<>();
         Iterator<Person> personIterable = personsRepository.findAll().iterator();
@@ -54,22 +50,12 @@ public class CognizantChallengeAppSvc {
     }
 
     /**
-     * Get all task from the repo and distinct it by Task Name. This and description using for model UI mapping purposes.
-     *
-     * @return
+     * Creates whether new Person or use existing one by Name. Basically, Name should be unique.
+     * Executes remote call for the solution and creates Task entity.
+     * @param valueComposite
      */
-    public List<Task> getAllTasks() {
-        List<Task> taskList = new ArrayList<>();
-        Iterator<Task> taskIterable = taskRepository.findAll().iterator();
-        while (taskIterable.hasNext()) {
-            taskList.add(taskIterable.next());
-        }
-        return taskList.stream().filter(distinctByKey(Task::getTaskType)).collect(Collectors.toList());
-    }
-
-
     public void addPersonWithTask(SubmitValueComposite valueComposite) {
-        ResponseCompilerJson responseCompilerJson = codeAppSvc.execute(new RequestCompilerJson(valueComposite.getInputParameter()));
+        ResponseCompilerJson responseCompilerJson = codeExecutionAppSvc.execute(new RequestCompilerJson(valueComposite.getInputParameter()));
 
         List<Person> personList = personsRepository.findByName(valueComposite.getName(), Person.class)
                 .stream().collect(Collectors.toList());
