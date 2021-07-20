@@ -27,7 +27,7 @@ public class CodeAppSvc {
             Response<String> responseMsg =  response.execute();
             String str = responseMsg.body();
             JSONObject responseJson = new JSONObject(str);
-            responseCompilerJson.setOutput(responseJson.get("output").toString());
+            responseCompilerJson.setOutput(responseJson.get("output").toString().replace("\n", ""));
             responseCompilerJson.setStatusCode(responseJson.get("statusCode").toString());
             responseCompilerJson.setMemory(Long.parseLong(responseJson.get("memory").toString()));
             responseCompilerJson.setCpuTime(Double.parseDouble(responseJson.get("cpuTime").toString()));

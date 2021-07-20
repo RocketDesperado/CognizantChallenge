@@ -1,4 +1,4 @@
-package com.example.demo.controller.main;
+package com.example.demo.controller.index;
 
 import com.example.demo.domain.composites.SubmitValueComposite;
 import com.example.demo.domain.model.task.Task;
@@ -9,7 +9,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Controller
 public class CognizantChallengeAppCtrl {
@@ -21,24 +24,17 @@ public class CognizantChallengeAppCtrl {
         this.cognizantChallengeAppSvc = cognizantChallengeAppSvc;
     }
 
-    @GetMapping(value="/")
+    @GetMapping(value = "/")
     public ModelAndView index() {
         ModelAndView modelAndView = new ModelAndView("index");
-        List<Task> taskList = cognizantChallengeAppSvc.getAllTasks();
-
-        // hardcoded value by default
-        Task task = taskList.stream().filter(x -> TaskType.FIBONACCI.equals(x.getTaskType())).findFirst().get();
-
-        SubmitValueComposite valueComposite = new SubmitValueComposite();
-        valueComposite.setDescription(task.getDescription());
-        modelAndView.addObject("submitValue", valueComposite);
-        modelAndView.addObject("taskList", taskList);
+        modelAndView.addObject("submitValue", new SubmitValueComposite());
+        modelAndView.addObject("taskList", Arrays.asList(TaskType.values()));
         return modelAndView;
     }
 
     @PostMapping(value = "/event")
     public String submitValues(@ModelAttribute(value = "submitValue") SubmitValueComposite submitValue) {
-        if (submitValue.getName() != null && submitValue.getInputParameter() != null) {
+        if (!submitValue.getName().isEmpty() && !submitValue.getInputParameter().isEmpty()) {
             cognizantChallengeAppSvc.addPersonWithTask(submitValue);
         }
         return "redirect:";

@@ -5,7 +5,8 @@ import javax.persistence.Convert;
 
 public enum TaskType {
     FIBONACCI("Fibonacci"),
-    BINARY_SEARCH("Binary search");
+    IS_PALINDROME("Palindrome"),
+    REVERSE_STRING("Reverse String");
 
     private String id;
 
