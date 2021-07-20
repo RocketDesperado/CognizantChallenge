@@ -49,11 +49,14 @@ public class TopThreeAppCtrlHelper {
     private List<TopThreeModelComposite> sortByHighestSolutionScore(List<TopThreeModelComposite> modelCompositeList) {
         // TODO: enhance sort when solution count is the same
         Comparator<TopThreeModelComposite> comparator = (o1, o2)->o2.getSuccessSolutionsCount().compareTo(o1.getSuccessSolutionsCount());
-        return modelCompositeList.stream()
+        return cutByThreeRows(modelCompositeList.stream()
                 .filter(comp -> comp.getSuccessSolutionsCount() > 0)
                 .sorted(comparator)
-                .collect(Collectors.toList())
-                .subList(0, 3);
+                .collect(Collectors.toList()));
+    }
+
+    private List<TopThreeModelComposite> cutByThreeRows(List<TopThreeModelComposite> compositeList) {
+        return compositeList.size() > 3 ? compositeList.subList(0, 3) : compositeList;
     }
 
     private <T> Predicate<T> distinctByKey(

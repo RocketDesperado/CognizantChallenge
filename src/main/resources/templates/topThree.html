@@ -48,7 +48,7 @@
                     <th scope="col" >Tasks</th>
                 </tr>
                 </thead>
-                <tbody>
+                <tbody th:if="${personsAndTasks.size() > 0}">
                 <tr scope="col" th:each="i : ${#numbers.sequence(0, personsAndTasks.size()-1)}" id="tablerow" >
                     <td th:each="field: ${i+1}" th:text="${i+1}" />
                     <td th:each="field: ${personsAndTasks.get(i)}" th:text="${personsAndTasks.get(i).getName()}" />

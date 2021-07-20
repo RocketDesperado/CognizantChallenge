@@ -1,7 +1,7 @@
 package com.example.demo.controller.index;
 
+import com.example.demo.domain.TaskDescription;
 import com.example.demo.domain.composites.SubmitValueComposite;
-import com.example.demo.domain.model.task.Task;
 import com.example.demo.domain.model.task.TaskType;
 import com.example.demo.service.CognizantChallengeAppSvc;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,9 +10,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
-import java.util.stream.Collectors;
 
 @Controller
 public class CognizantChallengeAppCtrl {
@@ -35,6 +32,7 @@ public class CognizantChallengeAppCtrl {
     @PostMapping(value = "/event")
     public String submitValues(@ModelAttribute(value = "submitValue") SubmitValueComposite submitValue) {
         if (!submitValue.getName().isEmpty() && !submitValue.getInputParameter().isEmpty()) {
+            submitValue.setDescription(TaskDescription.getDescriptionByTaskType(submitValue.getTaskName()));
             cognizantChallengeAppSvc.addPersonWithTask(submitValue);
         }
         return "redirect:";
