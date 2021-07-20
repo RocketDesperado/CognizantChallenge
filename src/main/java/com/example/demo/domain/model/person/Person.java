@@ -3,6 +3,8 @@ package com.example.demo.domain.model.person;
 import com.example.demo.domain.model.task.Task;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
@@ -14,6 +16,8 @@ public class Person implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
+    @NotNull
+    @Size(min=2, max=30)
     private String name;
 
     @OneToMany(fetch = FetchType.EAGER, cascade = {CascadeType.ALL})

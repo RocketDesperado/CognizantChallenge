@@ -3,6 +3,7 @@ package com.example.demo.service.jdoodleservice;
 import com.example.demo.domain.composites.RequestCompilerJson;
 import com.example.demo.domain.composites.ResponseCompilerJson;
 import okhttp3.OkHttpClient;
+import org.json.JSONException;
 import org.json.JSONObject;
 import org.springframework.stereotype.Service;
 import retrofit2.Call;
@@ -12,6 +13,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.converter.scalars.ScalarsConverterFactory;
 
 import java.io.IOException;
+import java.util.Optional;
 
 @Service
 public class CodeAppSvc {
@@ -24,18 +26,24 @@ public class CodeAppSvc {
         Call<String> response = apiService.execute(request);
 
         try {
-            Response<String> responseMsg =  response.execute();
+            Response<String> responseMsg = response.execute();
             String str = responseMsg.body();
             JSONObject responseJson = new JSONObject(str);
-            responseCompilerJson.setOutput(responseJson.get("output").toString().replace("\n", ""));
-            responseCompilerJson.setStatusCode(responseJson.get("statusCode").toString());
-            responseCompilerJson.setMemory(Long.parseLong(responseJson.get("memory").toString()));
-            responseCompilerJson.setCpuTime(Double.parseDouble(responseJson.get("cpuTime").toString()));
+
+
+            responseCompilerJson.setOutput(responseJson.optString("output").replace("\n", ""));
+            responseCompilerJson.setStatusCode(responseJson.optString("statusCode"));
+            responseCompilerJson.setMemory(responseJson.optLong("memory"));
+            responseCompilerJson.setCpuTime(handleDouble(responseJson.optDouble("cpuTime")));
 
         } catch (IOException e) {
             e.printStackTrace();
         }
         return responseCompilerJson;
+    }
+
+    private double handleDouble (double num) {
+        return Double.isNaN(num) ? 0.0 : num;
     }
 
     private APIService getApiService() {
